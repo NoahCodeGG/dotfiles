@@ -14,6 +14,7 @@ echo "Installing Brew Formulae..."
 brew tap homebrew/cask-fonts # nerdfonts
 brew tap FelixKratz/formulae # sketchybar
 brew tap koekeishiya/formulae # yabai, skhd
+brew tap CJ-Systems/homebrew-gitflow-cjs # git flow
 
 # Brew Formulae
 brew install neovim
@@ -36,20 +37,37 @@ brew install grep
 brew install gping
 brew install mas
 brew install nvim
+brew install git-flow-cjs
 
 # Brew Cask
 brew install --cask font-jetbrains-mono-nerd-font
 brew install --cask arc
 brew install --cask raycast
+brew install --cask utools
 brew install --cask alacritty
 brew install --cask motrix
 brew install --cask visual-studio-code
 brew install --cask easydict
-brew install --cask spotify
 brew install --cask jetbrains-toolbox
 brew install --cask orbstack
 brew install --cask notion
 brew install --cask iina
+brew install --cask maczip
+brew install --cask blender
+brew install --cask obs
+
+# Brew Optional Cask
+brew install --cask qq
+brew install --cask wechat
+brew install --cask telegram
+brew install --cask discord
+brew install --cask dingtalk
+brew install --cask neteasemusic
+brew install --cask listen1
+brew install --cask steam
+brew install --cask todesk
+brew install --cask bilibili
+brew install --cask uu-booster
 
 # Mac App Store Apps
 echo "Installing Mac App Store Apps..."

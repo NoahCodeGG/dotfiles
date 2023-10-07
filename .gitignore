@@ -1,4 +1,7 @@
+.idea
+
 .config/nvim
 .config/raycast
 .config/clash
-.idea
+.config/github-copilot
+.config/jgit
