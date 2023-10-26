@@ -8,7 +8,15 @@
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
+# sketchybar
 $HOME/.config/yabai/Scripts/create_spaces.sh
+
+yabai -m signal --add event=window_focused active=yes action="sketchybar --trigger window_focus"
+yabai -m signal --add event=window_created active=yes action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_destroyed active=yes action="sketchybar --trigger windows_on_spaces && yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
+yabai -m signal --add event=window_minimized active=yes action="if \$(yabai -m query --windows --window \$YABAI_WINDOW_ID | jq -r '.\"is-floating\"'); then yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null; fi"
+yabai -m signal --add event=display_added active=yes action="sleep 1 && $HOME/.config/yabai/create_spaces.sh"
+yabai -m signal --add event=display_removed active=yes action="sleep 1 && $HOME/.config/yabai/create_spaces.sh"
 
 # mission-control desktop labels
 yabai -m space 1 --label code
@@ -27,32 +35,27 @@ yabai -m rule --add app="^(${JetBrainsApp}|Code)$" space=code
 yabai -m rule --add app="^(Arc|Safari浏览器|Microsoft Edge|Google Chrome)$" space=web
 yabai -m rule --add app="^(Unity|Blender|Aseprite|Sketch|Adobe photoshopl.*)$" space=creation
 yabai -m rule --add app="^(Notion|Microsoft Word|Reeder)$" space=notes
-yabai -m rule --add app="^(钉钉|QQ|微信|邮件|Discord|Telegram)$" space=social manage=off
+yabai -m rule --add app="^(钉钉|QQ|微信|邮件|Discord|Telegram|Canary Mail)$" space=social manage=off
 yabai -m rule --add app="^(音乐|网易云音乐|Spotify|哔哩哔哩|Listen1)$" space=media manage=off
 yabai -m rule --add app="^(Steam Helper|Battle.net)$" space=games manage=off
 
 # Jetbrain
-yabai -m rule --add app="${JetBrainsApp}" manage=off
+# yabai -m rule --add app="${JetBrainsApp}" manage=off
 # yabai -m rule --add app="${JetBrainsApp}" title="^(Merge(.*))$" manage=off
-yabai -m rule --add app="${JetBrainsApp}" title="^$" manage=on
+# yabai -m rule --add app="${JetBrainsApp}" title="^$" manage=on
+yabai -m rule --add app="${JetBrainsApp}" title="^(Settings|Commit|Push Commits to(.*)|Rename|Run\/Debug Configuration(.*)|Rollback Changes|Delete|Copy.*|About.*|Cannot Undo|Move|(New|Edit) File Watcher|File Cache Conflict|Conflicts|Merge Revisions for (.*)|Usages Detected|Update Project|Plugin Updates|Add File to Git|Data Sources and Drivers|Edit Configuration|External Tools|Exclude Directories|Licenses|Project Structure|Go to Line:Column|Change Signature|\/(.*)|Git User Name Is Not Defined|(.*)and Plugin Updates|Choose Plugins to Install or Enable|Disable settings sync?|Settings Sync|Generate|New Project|Log In to(.*)|Preferences|Proxy Settings|Add Files to Git|Generate Signed Bundle or APK|New Key Store|Unversioned Files|Select Path|Reformat Files|Problems Detected|Create.*|CodeLocator-TinyPng压缩图片|Error|(.*)Reload or Convert to(.*)|Device Manager|Rename(.*)|Disable settings sync\?|Line Separators Warning|Import Android Studio Settings|Android Studio Setup Wizard|GOROOT|Import.*Settings|Sort Lines|Macros|SQL Dialects|Connecting.*|Confirm.*|Restore.*|IDE Internal Errors|Register New File Type Association)$" manage=off
 
 # Blender
 yabai -m rule --add app="Blender" title="^(Blender.*)$" manage=off
 
-# no manage
-yabai -m rule --add app="^(iTerm2|系统设置|App Store|系统信息|访达|Path Findera|JetBrains Toolbox|Motrix|PictureView|DeepL|uTools|天气|信息|ClashX.*|Notion|CrossOver|___go_build_.*|KeyBoardHolder|安装器|EasyConnect|超级右键 专业版|MacZip|阿里云盘|Docker Desktop|Bartender.*|Unity Hub|PlayCover|Diskmages UI Agent|Wacom Center|Simulator|iShot.*|ToDesk|Sensei|Microsoft AutoUpdate|计算器|OrbStack|预览|Epic Games Launcher|DiskImages UI Agent|QQMiniApp|音频MIDI设置|DaisyDisk|.*Installer|腾讯会议|Easydict|App Cleaner & Uninstaller|KeyboardHolder|Creative Cloud|天翼云盘|App Cleaner & Uninstaller|st|Another Redis Desktop Manager|QuickFTP|FileZilla|Navicat Premium|迅雷|Ghost Buster Pro|PrettyClean|OBS Studio|TablePlus|打字大师2|Anki|voice-changer-native-client|UU 加速器|LocalSend|Proxyman|夸克网盘|Android 文件传输|PasteNow|Raycast|MQTTX|IINA|MacZip Assistant|GeoGebra Classic 6|Cody|qemu-system-aarch64|Lunar|Logi Options\+|Logitech Firmware Update Tool|Install.*|哔哩哔哩-直播助手|文本编辑|备忘录|SerialSeeker 2|Duplicate File Finder|照片|TeamSpeak.*|Applite|Path Finder|键盘设置助理|Macs Fan Control|Surge|安装.*|Dash|KeeWeb|CleanShot X|CheatSheet|BuhoCleaner|Termius|pot|归家出行助手.*|Avalonia Application|update|奇游加速器|bilibili-sprite|Godot|Bandizip|Pixea)$" manage=off
-yabai -m rule --add app="Arc" title="^(NoahCode)$" manage=off
+# Arc
+yabai -m rule --add app="Arc" title="^(NoahCode)$" manage=off signals
 
-# signals
-yabai -m signal --add event=window_focused active=yes action="sketchybar --trigger window_focus"
-yabai -m signal --add event=window_created active=yes action="sketchybar --trigger windows_on_spaces"
-yabai -m signal --add event=window_destroyed active=yes action="sketchybar --trigger windows_on_spaces && yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
-yabai -m signal --add event=window_minimized active=yes action="if \$(yabai -m query --windows --window \$YABAI_WINDOW_ID | jq -r '.\"is-floating\"'); then yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null; fi"
-yabai -m signal --add event=display_added active=yes action="sleep 1 && $HOME/.config/yabai/create_spaces.sh"
-yabai -m signal --add event=display_removed active=yes action="sleep 1 && $HOME/.config/yabai/create_spaces.sh"
+# no manage 
+yabai -m rule --add app="^(iTerm2|系统设置|App Store|系统信息|访达|Path Findera|JetBrains Toolbox|Motrix|PictureView|DeepL|uTools|天气|信息|ClashX.*|Notion|CrossOver|___go_build_.*|KeyBoardHolder|安装器|EasyConnect|超级右键 专业版|MacZip|阿里云盘|Docker Desktop|Bartender.*|Unity Hub|PlayCover|Diskmages UI Agent|Wacom Center|Simulator|iShot.*|ToDesk|Sensei|Microsoft AutoUpdate|计算器|OrbStack|预览|Epic Games Launcher|DiskImages UI Agent|QQMiniApp|音频MIDI设置|DaisyDisk|.*Installer|腾讯会议|Easydict|App Cleaner & Uninstaller|KeyboardHolder|Creative Cloud|天翼云盘|App Cleaner & Uninstaller|st|Another Redis Desktop Manager|QuickFTP|FileZilla|Navicat Premium|迅雷|Ghost Buster Pro|PrettyClean|OBS Studio|TablePlus|打字大师2|Anki|voice-changer-native-client|UU 加速器|LocalSend|Proxyman|夸克网盘|Android 文件传输|PasteNow|Raycast|MQTTX|IINA|MacZip Assistant|GeoGebra Classic 6|Cody|qemu-system-aarch64|Lunar|Logi Options\+|Logitech Firmware Update Tool|Install.*|哔哩哔哩-直播助手|文本编辑|备忘录|SerialSeeker 2|Duplicate File Finder|照片|TeamSpeak.*|Applite|Path Finder|键盘设置助理|Macs Fan Control|Surge|安装.*|Dash|KeeWeb|CleanShot X|CheatSheet|BuhoCleaner|Termius|pot|归家出行助手.*|Avalonia Application|update|奇游加速器|bilibili-sprite|Godot|Bandizip|Pixea|Bezel|SoundSource|字体册|Spacedrive|Watt Toolkit|Steam\+\+|QSpace Pro|Boom 3D|FlowVPN)$" manage=off 
 
 # global settings
-yabai -m config external_bar               all:35:0     \
+yabai -m config external_bar               all:35:0      \
                 window_border              off          \
                 mouse_follows_focus        off          \
                 focus_follows_mouse        off          \

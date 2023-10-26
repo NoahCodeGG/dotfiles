@@ -1,5 +1,5 @@
 import:
- - ~/.config/alacritty/themes/themes/one_dark.yaml
+ - ~/.config/alacritty/themes/one_dark.yaml
 
 window:
   opacity: 1
@@ -16,8 +16,8 @@ window:
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
-    x: 5
-    y: 5
+    x: 20
+    y: 20
 
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: false
@@ -190,7 +190,7 @@ mouse:
   triple_click: { threshold: 300 }
 
   # If this is `true`, the cursor is temporarily hidden when typing.
-  hide_when_typing: true
+  hide_when_typing: false
 
 selection:
   # This string contains all characters that are used as separators for
